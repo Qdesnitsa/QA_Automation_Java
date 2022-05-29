@@ -65,10 +65,10 @@ public class CalculatorSuper implements ICalculator {
         result = diff(a, b);
         break;
       case "*":
-        result = multiplying(a, b);
+        result = multiply(a, b);
         break;
       case "/":
-        result = division(a, b);
+        result = divide(a, b);
     }
     numbers.push(result);
   }

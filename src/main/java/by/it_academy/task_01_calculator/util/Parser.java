@@ -28,18 +28,8 @@ public final class Parser {
         for (int i = 0; matcher.find(); ++i) {
             array.add(i, matcher.group());
         }
-        for (int i = 1; i < array.size(); i++) {
-            if (PATTERN_1.matcher(array.get(i)).matches() || PATTERN_2.matcher(array.get(i)).matches()) {
-                String temp = array.get(i);
-                array.set(i, "+");
-                array.add(i + 1, temp.replace("+", ""));
-                i++;
-                if (i + 1 == array.size()) {
-                    break;
-                }
-            }
-        }
 
+        replaceNumbersWithSign(array);
         return array;
     }
 
@@ -58,6 +48,11 @@ public final class Parser {
             array.add(i, matcher.group());
         }
 
+        replaceNumbersWithSign(array);
+        return array;
+    }
+
+    public List<String> replaceNumbersWithSign(List<String> array) {
         for (int i = 1; i < array.size(); i++) {
             if (PATTERN_1.matcher(array.get(i)).matches() || PATTERN_2.matcher(array.get(i)).matches()) {
                 String temp = array.get(i);
@@ -69,7 +64,7 @@ public final class Parser {
                 }
             }
         }
-
         return array;
     }
+
 }

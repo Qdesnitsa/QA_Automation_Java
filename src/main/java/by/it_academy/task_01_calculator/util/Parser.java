@@ -9,8 +9,10 @@ import java.util.regex.Pattern;
 
 public final class Parser {
     private static String input;
-    private final static String DELIMITER = "[0-9]*[.,]?[0-9]+|\\+|\\-|\\*|\\/|\\(|\\)";
+    private final static String DELIMITER = "[-+]?\\d+(\\.\\d+)?|\\+|\\-|\\*|\\/|\\(|\\)";
     private final static Pattern PATTERN = Pattern.compile(DELIMITER);
+    private final static Pattern PATTERN_1 = Pattern.compile("[-+]{1}\\d+(\\.\\d+)");
+    private final static Pattern PATTERN_2 = Pattern.compile("[-+]{1}\\d+");
 
     /**
      * Метод делит строку, переданную с консоли, на объекты String при наличии любого из разделителей (DELIMITER).
@@ -25,6 +27,17 @@ public final class Parser {
 
         for (int i = 0; matcher.find(); ++i) {
             array.add(i, matcher.group());
+        }
+        for (int i = 1; i < array.size(); i++) {
+            if (PATTERN_1.matcher(array.get(i)).matches() || PATTERN_2.matcher(array.get(i)).matches()) {
+                String temp = array.get(i);
+                array.set(i, "+");
+                array.add(i + 1, temp.replace("+", ""));
+                i++;
+                if (i + 1 == array.size()) {
+                    break;
+                }
+            }
         }
 
         return array;
@@ -43,6 +56,18 @@ public final class Parser {
 
         for (int i = 0; matcher.find(); ++i) {
             array.add(i, matcher.group());
+        }
+
+        for (int i = 1; i < array.size(); i++) {
+            if (PATTERN_1.matcher(array.get(i)).matches() || PATTERN_2.matcher(array.get(i)).matches()) {
+                String temp = array.get(i);
+                array.set(i, "+");
+                array.add(i + 1, temp.replace("+", ""));
+                i++;
+                if (i + 1 == array.size()) {
+                    break;
+                }
+            }
         }
 
         return array;

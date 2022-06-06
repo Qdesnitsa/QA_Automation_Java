@@ -1,8 +1,10 @@
 package by.it_academy.task_01_calculator.calculation;
 
 import by.it_academy.task_01_calculator.entity.Calculator;
-import by.it_academy.task_01_calculator.util.Parser;
-import by.it_academy.task_01_calculator.util.Priority;
+import by.it_academy.task_01_calculator.exception.DivisionByZeroException;
+import by.it_academy.task_01_calculator.output.OutputConsole;
+import by.it_academy.task_01_calculator.util.ParserOfUserStringInput;
+import by.it_academy.task_01_calculator.util.PriorityOfOperator;
 
 import java.util.List;
 import java.util.Stack;
@@ -11,9 +13,9 @@ public class CalculatorSuper implements ICalculator {
     private final Stack<Double> numbers = new Stack();
     private final Stack<String> operators = new Stack();
     private String input;
-    private Parser parser = new Parser();
+    private ParserOfUserStringInput parser = new ParserOfUserStringInput();
 
-    public void calcResult(Calculator calc) {
+    public void calculateResult(Calculator calc) {
         List<String> array;
         if (calc.getTypeOfInput() == 1) {
             input = calc.getExpression();
@@ -32,15 +34,18 @@ public class CalculatorSuper implements ICalculator {
                     operators.push(element);
                 } else if (element.equals(")")) {
                     while (!operators.peek().equals("("))
-                        calculate();
+                        calculateOneOfFourOperation();
                     operators.pop();
                 } else {
                     if (operators.empty()) {
                         operators.push(element);
                     } else {
-                        Integer priority = Priority.obtainPriorityInt(element);
-                        while (!operators.empty() && !(operators.peek()).equals("(") && !(operators.peek()).equals(")") && priority <= Priority.obtainPriorityInt(operators.peek())) {
-                            calculate();
+                        Integer priority = PriorityOfOperator.obtainPriorityInt(element);
+                        while (!operators.empty() &&
+                                !(operators.peek()).equals("(") &&
+                                !(operators.peek()).equals(")") &&
+                                priority <= PriorityOfOperator.obtainPriorityInt(operators.peek())) {
+                            calculateOneOfFourOperation();
                         }
                         operators.push(element);
                     }
@@ -48,12 +53,12 @@ public class CalculatorSuper implements ICalculator {
             }
         }
         while (!operators.empty()) {
-            calculate();
+            calculateOneOfFourOperation();
         }
         calc.setResult(numbers.pop());
     }
 
-    public void calculate() {
+    public void calculateOneOfFourOperation() {
         String operator = operators.pop();
         Double b = numbers.pop();
         Double a = numbers.pop();
@@ -69,8 +74,13 @@ public class CalculatorSuper implements ICalculator {
                 result = multiply(a, b);
                 break;
             case "/":
-                result = divide(a, b);
+                try {
+                    result = divide(a, b);
+                } catch (DivisionByZeroException e) {
+                    OutputConsole.printResultingMsg("Division by zero is prohibited");
+                }
         }
         numbers.push(result);
     }
 }
+

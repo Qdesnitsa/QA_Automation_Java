@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public final class PatternRegex {
+public final class PatternInvalidInput {
     private static final String INVALID_ORDER_OPERATORS = "[\\+|\\-|\\*|\\/]{2,}";
     private static final String INVALID_ORDER_WITH_BRACKETS = "[\\(][\\)|\\+|\\-|\\*|\\/]|[\\)][\\(]|[\\d]]|[0-9][\\(]|[\\(][\\d+][\\)]|[\\+|\\-|\\*|\\/][\\)]";
     private static final String INVALID_START_LINE = "^[\\+|\\*|\\/\\)]";
@@ -15,7 +15,7 @@ public final class PatternRegex {
     private static final Pattern PATTERN_4;
 
     static {
-        PATTERN_1 = Pattern.compile(PatternRegex.INVALID_ORDER_OPERATORS);
+        PATTERN_1 = Pattern.compile(PatternInvalidInput.INVALID_ORDER_OPERATORS);
         PATTERN_2 = Pattern.compile(INVALID_ORDER_WITH_BRACKETS);
         PATTERN_3 = Pattern.compile(INVALID_START_LINE);
         PATTERN_4 = Pattern.compile(INVALID_END_LINE);

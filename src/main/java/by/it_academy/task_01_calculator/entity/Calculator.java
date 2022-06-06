@@ -11,7 +11,7 @@ public class Calculator implements Serializable {
     private String expression;
     private double result;
     private int typeOfInput;
-    private final CalculatorSuper CALC_SUPER = new CalculatorSuper();
+    private final CalculatorSuper calcSuper = new CalculatorSuper();
 
     public Calculator() {
         this.typeOfInput = 0;
@@ -31,7 +31,12 @@ public class Calculator implements Serializable {
     }
 
     public double getResult() {
-        CALC_SUPER.calcResult(this);
+        try {
+            calcSuper.calculateResult(this);
+        } catch (NullPointerException e) {
+            expression = "";
+            return 0;
+        }
         return result;
     }
 
@@ -63,6 +68,9 @@ public class Calculator implements Serializable {
 
     @Override
     public String toString() {
+        if (expression.equals("")) {
+            return "Try again.";
+        }
         DecimalFormat dF = new DecimalFormat("#.##");
         return expression +
                 " = " + dF.format(result);

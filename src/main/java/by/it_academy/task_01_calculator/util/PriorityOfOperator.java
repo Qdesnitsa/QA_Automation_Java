@@ -3,7 +3,7 @@ package by.it_academy.task_01_calculator.util;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class Priority {
+public final class PriorityOfOperator {
   private static Integer prior;
   private static Map<String, Integer> priorities;
 
@@ -15,7 +15,7 @@ public final class Priority {
     priorities.put("/", 2);
   }
 
-  private Priority() {
+  private PriorityOfOperator() {
   }
 
   public static Integer obtainPriorityInt(String operator) {

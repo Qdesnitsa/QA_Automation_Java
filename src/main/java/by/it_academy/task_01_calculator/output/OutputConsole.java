@@ -1,7 +1,8 @@
 package by.it_academy.task_01_calculator.output;
 
 public final class OutputConsole {
-  private static String inputInstructionForUser = "Enter expression using: integers,+,-,*,/,(,) without spaces. Quantity of '(' and ')' should be equal.";
+  private static final String INPUT_INSTRUCTION_FOR_USER =
+          "Enter expression using: integers,+,-,*,/,(,) without spaces. Quantity of '(' and ')' should be equal.";
 
   private OutputConsole() {
   }
@@ -10,7 +11,7 @@ public final class OutputConsole {
    * Метод выводит на консоль сообщение пользователю с инструкцией для ввода данных.
    */
   public static void printInstructions() {
-    System.out.println(inputInstructionForUser);
+    System.out.println(INPUT_INSTRUCTION_FOR_USER);
   }
 
   /**

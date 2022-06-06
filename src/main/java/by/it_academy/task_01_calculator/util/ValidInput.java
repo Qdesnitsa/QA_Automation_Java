@@ -1,15 +1,15 @@
 package by.it_academy.task_01_calculator.util;
 
-import static by.it_academy.task_01_calculator.util.PatternRegex.*;
+import by.it_academy.task_01_calculator.output.OutputConsole;
 
-import by.it_academy.task_01_calculator.input.InputScanner;
+import static by.it_academy.task_01_calculator.util.PatternInvalidInput.*;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class ValidInput {
-    private static final String INVALID_INPUT = "[[-+]?\\d+[.,]?[0-9]+\\/\\*\\+\\-\\(\\)]+";
+    private static final String VALID_INPUT = "[[-+]?\\d+[.,]?[0-9]+\\/\\*\\+\\-\\(\\)]+";
     private static String input;
 
     private ValidInput() {
@@ -21,9 +21,12 @@ public final class ValidInput {
      * @return строку соответствующую условию.
      */
     public static String obtainValidElements() {
-        input = InputScanner.obtainInput();
+        OutputConsole.printInstructions();
+        input = InputScanner.obtainStringInput();
 
-        for (; !input.matches(INVALID_INPUT); input = InputScanner.obtainInput()) {
+        for (; !input.matches(VALID_INPUT);
+             OutputConsole.printInstructions(),
+                     input = InputScanner.obtainStringInput()) {
         }
 
         return input;
@@ -38,7 +41,7 @@ public final class ValidInput {
      */
     public static String obtainValidElements(String input) {
 
-        if (!input.matches(INVALID_INPUT)) {
+        if (!input.matches(VALID_INPUT)) {
             throw new RuntimeException("Argument contains characters other than numbers and '(',')','+','-','*','/'.");
         }
         return input;

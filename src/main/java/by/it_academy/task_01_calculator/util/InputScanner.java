@@ -1,4 +1,4 @@
-package by.it_academy.task_01_calculator.input;
+package by.it_academy.task_01_calculator.util;
 
 import by.it_academy.task_01_calculator.output.OutputConsole;
 
@@ -15,8 +15,7 @@ public final class InputScanner {
      *
      * @return строку без изменений.
      */
-    public static String obtainInput() {
-        OutputConsole.printInstructions();
+    public static String obtainStringInput() {
         @SuppressWarnings("unchecked")
         Scanner scan = new Scanner(System.in);
         input = scan.nextLine();

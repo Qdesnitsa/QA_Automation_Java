@@ -17,7 +17,7 @@ public interface ICalculator {
 
     default double divide(double a, double b) throws DivisionByZeroException {
         if (b == 0.0D) {
-            throw new DivisionByZeroException(" Do not divide by zero.");
+            throw new DivisionByZeroException(" Division by zero is prohibited.");
         } else {
             return a / b;
         }

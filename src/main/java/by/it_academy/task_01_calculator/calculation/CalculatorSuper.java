@@ -77,7 +77,7 @@ public class CalculatorSuper implements ICalculator {
                 try {
                     result = divide(a, b);
                 } catch (DivisionByZeroException e) {
-                    OutputConsole.printResultingMsg("Division by zero is prohibited");
+                    OutputConsole.printResultingMsg(String.valueOf(e));
                 }
         }
         numbers.push(result);

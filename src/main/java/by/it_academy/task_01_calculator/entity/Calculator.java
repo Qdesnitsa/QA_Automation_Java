@@ -34,7 +34,7 @@ public class Calculator implements Serializable {
         try {
             calcSuper.calculateResult(this);
         } catch (NullPointerException e) {
-            expression = "";
+            expression += " = Error. ";
             return 0;
         }
         return result;
@@ -68,8 +68,8 @@ public class Calculator implements Serializable {
 
     @Override
     public String toString() {
-        if (expression.equals("")) {
-            return "Try again.";
+        if (expression.contains("Error")) {
+            return expression + "Please check your input expression.";
         }
         DecimalFormat dF = new DecimalFormat("#.##");
         return expression +

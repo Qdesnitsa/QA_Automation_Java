@@ -65,17 +65,17 @@ public class CalculatorSuper implements ICalculator {
         Double result = null;
         switch (operator) {
             case "+":
-                result = sum(a, b);
+                result = ICalculator.sum(a, b);
                 break;
             case "-":
-                result = diff(a, b);
+                result = ICalculator.diff(a, b);
                 break;
             case "*":
-                result = multiply(a, b);
+                result = ICalculator.multiply(a, b);
                 break;
             case "/":
                 try {
-                    result = divide(a, b);
+                    result = ICalculator.divide(a, b);
                 } catch (DivisionByZeroException e) {
                     OutputConsole.printResultingMsg(String.valueOf(e));
                 }

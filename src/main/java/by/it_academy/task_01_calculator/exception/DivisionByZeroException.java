@@ -4,7 +4,7 @@ public class DivisionByZeroException extends Exception {
     private String reasonMsg;
 
     public DivisionByZeroException(String message) {
-        this.reasonMsg = message;
+        super(message);
     }
 
     @Override

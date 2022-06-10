@@ -1,15 +1,16 @@
 package by.it_academy.task_01_calculator;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.platform.suite.api.IncludeTags;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.Suite;
 
-@RunWith(org.junit.runners.Suite.class)
-@Suite.SuiteClasses({
-        AdditionTest.class,
-        DivisionTest.class,
-        MultiplicationTest.class,
-        SubstractionTest.class,
-        ReplaceCommaWithDot.class})
+@Execution(ExecutionMode.CONCURRENT)
+@SelectPackages({"by.it_academy.task_01_calculator.calculation",
+                "by.it_academy.task_01_calculator.util"})
+@Suite
+@IncludeTags({"calculator","utils"})
 public class AllTests {
 }
 

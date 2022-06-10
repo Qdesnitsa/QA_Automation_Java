@@ -16,11 +16,11 @@ public final class ParserOfUserStringInput {
     private final static String DELIMITER = "[-+]?\\d+(\\.\\d+)?|\\+|\\-|\\*|\\/|\\(|\\)";
     private final static Pattern PATTERN = Pattern.compile(DELIMITER);
     /**
-     * Проверка на наличие в строке положительных или отрицательных дробных чисел
+     * Проверка на наличие в строке положительных или отрицательных дробных чисел со знаком + или -
      */
     private final static Pattern PATTERN_1 = Pattern.compile("[-+]{1}\\d+(\\.\\d+)");
     /**
-     * Проверка на наличие в строке положительных или отрицательных целых чисел
+     * Проверка на наличие в строке положительных или отрицательных целых чисел со знаком + или -
      */
     private final static Pattern PATTERN_2 = Pattern.compile("[-+]{1}\\d+");
 

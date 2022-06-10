@@ -42,7 +42,8 @@ public final class ValidInput {
     public static String obtainValidElements(String input) {
 
         if (!input.matches(VALID_INPUT)) {
-            throw new RuntimeException("Argument contains characters other than numbers and '(',')','+','-','*','/'.");
+            System.out.println("Argument contains characters other than numbers and '(',')','+','-','*','/'.");
+            return "Argument contains characters other than numbers and '(',')','+','-','*','/'.";
         }
         return input;
     }

@@ -21,7 +21,7 @@ public class ValidInputTest {
     }
 
     @Test
-    public void restIncorrectInputFromUser() {
+    public void testIncorrectInputFromUser() {
         assertEquals("Argument contains characters other than numbers and '(',')','+','-','*','/'.",
                 ValidInput.obtainValidElements("inputFromUser"));
     }

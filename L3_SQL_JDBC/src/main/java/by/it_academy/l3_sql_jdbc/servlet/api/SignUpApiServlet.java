@@ -14,7 +14,7 @@ import java.sql.SQLException;
 @WebServlet(name = "SignUpApiServlet", value = "/api/sign-up")
 public class SignUpApiServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserDAOImpl userDao = null;
         try {
             userDao = new UserDAOImpl();
@@ -31,8 +31,6 @@ public class SignUpApiServlet extends HttpServlet {
             userDao.add(user);
             response.sendRedirect("/L3_SQL_JDBC/home");
         } catch (DAOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

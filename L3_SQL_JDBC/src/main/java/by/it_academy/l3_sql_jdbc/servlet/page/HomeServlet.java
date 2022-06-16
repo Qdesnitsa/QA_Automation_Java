@@ -23,10 +23,6 @@ public class HomeServlet extends BasePageServlet {
             request.setAttribute("name", user.getName());
         } catch (DAOException e) {
             throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 }

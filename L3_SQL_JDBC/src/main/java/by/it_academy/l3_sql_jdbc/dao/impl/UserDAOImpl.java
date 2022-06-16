@@ -5,7 +5,6 @@ import by.it_academy.l3_sql_jdbc.dao.exception.DAOException;
 import by.it_academy.l3_sql_jdbc.dao.repository.UserDAO;
 import by.it_academy.l3_sql_jdbc.entity.User;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> findAll() throws DAOException, IOException, ClassNotFoundException {
+    public List<User> findAll() throws DAOException {
         List<User> users = new ArrayList<>();
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_USERS)) {
@@ -47,7 +46,7 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public Optional<User> find(int id) throws DAOException, IOException, ClassNotFoundException {
+    public Optional<User> find(int id) throws DAOException {
         Optional<User> optional = Optional.empty();
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_ID)) {
@@ -64,7 +63,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean add(User user) throws DAOException, IOException, ClassNotFoundException {
+    public boolean add(User user) throws DAOException {
         boolean isAdded;
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_ADD_USER)) {
@@ -85,7 +84,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Optional<User> findUserByEmail(String email) throws DAOException, IOException, ClassNotFoundException {
+    public Optional<User> findUserByEmail(String email) throws DAOException {
         Optional<User> optional;
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_EMAIL)) {
@@ -104,7 +103,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Optional<String> findPasswordByEmail(String email) throws DAOException, IOException, ClassNotFoundException {
+    public Optional<String> findPasswordByEmail(String email) throws DAOException {
         Optional<String> optional;
         String password;
         try (Connection connection = ConnectionFactory.getConnection();

@@ -6,7 +6,6 @@ import by.it_academy.l3_sql_jdbc.dao.repository.AccountDAO;
 import by.it_academy.l3_sql_jdbc.entity.Account;
 import by.it_academy.l3_sql_jdbc.entity.User;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,11 +34,11 @@ public class AccountDAOImpl implements AccountDAO {
             "INNER JOIN transactions t ON t.account_id=a.account_id WHERE u.user_id=? AND a.currency=?";
     private static final String SQL_ADD_ACCOUNT
             = "INSERT INTO accounts (user_id, currency) values(?,?)";
-    private ConnectionFactory jdbcConnection;
+
     @Override
-    public List<Account> findAll() throws DAOException, IOException, ClassNotFoundException {
+    public List<Account> findAll() throws DAOException {
         List<Account> accounts = new ArrayList<>();
-        try (Connection connection = jdbcConnection.getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_ACCOUNTS)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -52,9 +51,9 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public Optional<Account> findByAccountId(int id) throws DAOException, IOException, ClassNotFoundException {
+    public Optional<Account> findByAccountId(int id) throws DAOException {
         Optional<Account> optional = Optional.empty();
-        try (Connection connection = jdbcConnection.getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_ACCOUNT_BY_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -68,10 +67,9 @@ public class AccountDAOImpl implements AccountDAO {
         return optional;
     }
 
-    @Override
-    public List<Account> findByUsertId(int id) throws DAOException, IOException, ClassNotFoundException {
+    public List<Account> findByUserId(int id) throws DAOException {
         List<Account> accounts = new ArrayList<>();
-        try (Connection connection = jdbcConnection.getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_ACCOUNT_BY_USER_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -85,9 +83,9 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public boolean addAccount(Account account) throws DAOException, IOException, ClassNotFoundException {
+    public boolean addAccount(Account account) throws DAOException {
         boolean isAdded;
-        try (Connection connection = jdbcConnection.getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_ADD_ACCOUNT)) {
             statement.setInt(1, account.getUser().getId());
             statement.setString(2, account.getCurrency().toString());
@@ -104,9 +102,9 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public Optional<Account> getBalanceByCurrencyAndUserId(int user_id, Currency currency) throws DAOException, IOException, ClassNotFoundException {
+    public Optional<Account> getBalanceByCurrencyAndUserId(int user_id, Currency currency) throws DAOException {
         Optional<Account> optional;
-        try (Connection connection = jdbcConnection.getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_GET_BALANCE_BY_USER_ID_AND_CURRENCY)) {
             statement.setInt(1, user_id);
             statement.setString(2, currency.toString());
@@ -118,7 +116,7 @@ public class AccountDAOImpl implements AccountDAO {
                 optional = Optional.empty();
             }
         } catch (SQLException e) {
-            throw new DAOException("Failed attempt to find acount by user ID and currency in the database");
+            throw new DAOException("Failed attempt to find account by user ID and currency in the database");
         }
         return optional;
     }

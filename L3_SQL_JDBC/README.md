@@ -22,4 +22,4 @@
 - В схеме amount и balance описаны как целые, однако рекомендуется использовать decimal для представления в базе.<br>
 В случае использования integer необходимо обеспечить умножение/деление на 1000 этих чисел при работе программы. Т.е. значение 123555 из базы в таком случае эквивалентно реальным 123.555.
 
-<div style="text-align:center"><img src="sql/finance-diagram.jpg" width="650" alt=""/></div>
+<div style="text-align:center"><img src="finance_diagram.jpg" width="650" alt=""/></div>

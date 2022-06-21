@@ -43,7 +43,8 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return account_id == account.account_id && Objects.equals(user, account.user) && Objects.equals(balance, account.balance) && currency == account.currency;
+        return account_id == account.account_id && Objects.equals(user, account.user) &&
+                Objects.equals(balance, account.balance) && currency == account.currency;
     }
 
     @Override

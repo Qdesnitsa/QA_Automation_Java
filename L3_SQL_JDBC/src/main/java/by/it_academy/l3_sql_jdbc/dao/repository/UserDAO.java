@@ -11,5 +11,6 @@ public interface UserDAO {
     Optional<User> find(int id) throws DAOException;
     boolean add(User user) throws DAOException;
     Optional<User> findUserByEmail(String email) throws DAOException;
+    Optional<User> findUserByEmailAndPassword(String email, String password) throws DAOException;
     Optional<String> findPasswordByEmail(String email) throws DAOException;
 }

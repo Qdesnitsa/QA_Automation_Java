@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,15 +42,19 @@
     <div class="card">
         <div class="card-header">
             <h2>Sign In</h2>
+            <c:if test="${message != null}">
+                <h4> <c:out value="${message}" default="guest" /></h4>
+            </c:if>
         </div>
         <div class="card-body">
-            <form>
+            <form action="/L3_SQL_JDBC/sign-in" method="POST">
                 <div class="input-form">
                     <input
                             type="text"
                             required
                             class="form-control"
                             placeholder="email"
+                            name="email"
                             pattern="[a-zA-Z]{1}[a-zA-Z\d\u002E\u005F]+@([a-zA-Z]+\u002E){1,2}[a-zA-Z]+"
                     />
                 </div>
@@ -59,6 +64,7 @@
                             required
                             class="form-control"
                             placeholder="password"
+                            name="password"
                     />
                 </div>
                 <div class="form-group">

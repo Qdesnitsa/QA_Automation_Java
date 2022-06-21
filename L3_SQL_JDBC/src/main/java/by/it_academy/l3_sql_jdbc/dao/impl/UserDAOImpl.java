@@ -24,7 +24,8 @@ public class UserDAOImpl implements UserDAO {
             "SELECT user_id, name, address, email FROM users WHERE email=?";
     private static final String SQL_FIND_PASSWORD_BY_EMAIL
             = "SELECT password FROM users WHERE email=?";
-    Connection jdbcConnection = ConnectionFactory.getConnection();
+    private static final String SQL_FIND_USER_BY_EMAIL_AND_PASSWORD
+            = "SELECT user_id, name, address, email FROM users WHERE email=? AND password=?";
 
     public UserDAOImpl() throws SQLException {
     }
@@ -98,6 +99,26 @@ public class UserDAOImpl implements UserDAO {
             }
         } catch (SQLException e) {
             throw new DAOException("Failed attempt to find user by email in the database");
+        }
+        return optional;
+    }
+
+    @Override
+    public Optional<User> findUserByEmailAndPassword(String email, String password) throws DAOException {
+        Optional<User> optional;
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_EMAIL_AND_PASSWORD)) {
+            statement.setString(1, email);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                User user = retrieve(resultSet);
+                optional = Optional.of(user);
+            } else {
+                optional = Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Failed attempt to find user by email and password in the database");
         }
         return optional;
     }

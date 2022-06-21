@@ -25,9 +25,10 @@ public class AccountDAOImpl implements AccountDAO {
             " FROM accounts a INNER JOIN users u on u.user_id=a.user_id " +
             "INNER JOIN transactions t ON t.account_id=a.account_id WHERE a.account_id=?";
     private static final String SQL_FIND_ACCOUNT_BY_USER_ID
-            = "SELECT a.account_id, a.user_id, sum(t.amount) as balance, a.currency, u.name, u.address, u.email" +
+            = "SELECT a.account_id, a.user_id as user_id, sum(t.amount) as balance, a.currency as currency, u.name, u.address, u.email" +
             " FROM accounts a INNER JOIN users u on u.user_id=a.user_id " +
-            "INNER JOIN transactions t ON t.account_id=a.account_id WHERE u.user_id=?";
+            "INNER JOIN transactions t ON t.account_id=a.account_id WHERE u.user_id=?" +
+            "GROUP BY currency ORDER BY a.account_id";
     private static final String SQL_GET_BALANCE_BY_USER_ID_AND_CURRENCY
             = "SELECT a.account_id, a.user_id, sum(t.amount) as balance, a.currency, u.name, u.address, u.email" +
             " FROM accounts a INNER JOIN users u ON u.user_id=a.user_id " +

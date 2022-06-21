@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Registration</title>
     <meta charset="UTF-8"/>
-    <%= request.getAttribute("isRequestAuthorized") %>
     <style>
         body {
             background-color: #ffe4e1;
@@ -48,9 +48,12 @@
     <div class="card">
         <div class="card-header">
             <h2>Registration form</h2>
+            <c:if test="${message != null}">
+               <h4> <c:out value="${message}" default="guest" /></h4>
+            </c:if>
         </div>
         <div class="card-body">
-            <form action="/L3_SQL_JDBC/api/sign-up" method="POST">
+            <form action="/L3_SQL_JDBC/sign-up" method="POST">
                 <div class="input-form">
                     <input type="text"
                            name="name"

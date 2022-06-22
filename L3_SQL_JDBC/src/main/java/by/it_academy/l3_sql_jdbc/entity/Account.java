@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Account {
     private int account_id;
-    private User user;
+    private int user_id;
     private BigDecimal balance;
     private Currency currency;
 
@@ -15,9 +15,9 @@ public class Account {
 
     private Account() {}
 
-    public Account(int account_id, User user, BigDecimal balance, Currency currency) {
+    public Account(int account_id, int user_id, BigDecimal balance, Currency currency) {
         this.account_id = account_id;
-        this.user = user;
+        this.user_id = user_id;
         this.balance = balance;
         this.currency = currency;
     }
@@ -34,8 +34,8 @@ public class Account {
         return currency;
     }
 
-    public User getUser() {
-        return user;
+    public int getUser_id() {
+        return user_id;
     }
 
     @Override
@@ -43,20 +43,20 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return account_id == account.account_id && Objects.equals(user, account.user) &&
+        return account_id == account.account_id && user_id == account.user_id &&
                 Objects.equals(balance, account.balance) && currency == account.currency;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(account_id, user, balance, currency);
+        return Objects.hash(account_id, user_id, balance, currency);
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() +
                 "account_id=" + account_id +
-                ", user=" + user +
+                ", user_id=" + user_id +
                 ", balance=" + balance +
                 ", currency=" + currency;
     }
@@ -73,8 +73,8 @@ public class Account {
             return this;
         }
 
-        public Builder setUser(User user) {
-            newAccount.user = user;
+        public Builder setUser_id(int user_id) {
+            newAccount.user_id = user_id;
             return this;
         }
 

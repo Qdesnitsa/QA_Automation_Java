@@ -28,7 +28,9 @@ public class HomeServlet extends BasePageServlet {
             session.setAttribute("name",request.getParameter("name"));
             Optional<User> user = new UserDAOImpl().findUserByEmail(request.getParameter("email"));
             List<Account> accounts = new AccountDAOImpl().findByUserId(user.get().getId());
-            request.setAttribute("accounts",accounts);
+            session.setAttribute("user_id",user.get().getId());
+            session.setAttribute("accounts",accounts);
+            //session.setAttribute("currency",request.getParameter("type"));
             getServletContext().getRequestDispatcher("/page/home.jsp").forward(request, response);
         } catch (DAOException | ServletException | IOException e) {
             throw new RuntimeException(e);

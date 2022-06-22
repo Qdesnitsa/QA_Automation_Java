@@ -16,24 +16,12 @@ public class Transaction {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
     public TypeTransaction getTypeTransaction() {
         return typeTransaction;
-    }
-
-    public void setTypeTransaction(TypeTransaction typeTransaction) {
-        this.typeTransaction = typeTransaction;
     }
 
     @Override
@@ -55,5 +43,31 @@ public class Transaction {
                 "id=" + id +
                 ", amount=" + amount +
                 ", typeTransaction=" + typeTransaction;
+    }
+
+    public static class Builder {
+        private final Transaction newTransaction;
+        public Builder() {
+            newTransaction = new Transaction();
+        }
+
+        public Builder setId(int id) {
+            newTransaction.id = id;
+            return this;
+        }
+
+        public Builder setAmount(BigDecimal amount) {
+            newTransaction.amount = amount;
+            return this;
+        }
+
+        public Builder setTypeTransaction(TypeTransaction typeTransaction) {
+            newTransaction.typeTransaction = typeTransaction;
+            return this;
+        }
+
+        public Transaction build() {
+            return newTransaction;
+        }
     }
 }

@@ -34,6 +34,7 @@ public class SignInServlet extends BasePageServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("email", request.getParameter("email"));
                 session.setAttribute("name", userDao.findUserByEmail(request.getParameter("email")).get().getName());
+                session.setAttribute("user_id",userDao.findUserByEmail(request.getParameter("email")).get().getId());
                 userDao.findUserByEmail(request.getParameter("email"));
                 List<Account> accounts = new AccountDAOImpl()
                         .findByUserId(userDao.findUserByEmail(request.getParameter("email")).get().getId());

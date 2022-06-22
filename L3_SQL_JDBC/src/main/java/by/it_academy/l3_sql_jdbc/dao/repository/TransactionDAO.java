@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface TransactionDAO {
     List<Transaction> findAll() throws DAOException;
-    Optional<Transaction> find(int id) throws DAOException;
+    //Optional<Transaction> find(int id) throws DAOException;
     List<Transaction> findByUserId(int id) throws DAOException;
     List<Transaction> findByAccountId(int id) throws DAOException;
     boolean add(Transaction transaction) throws DAOException;

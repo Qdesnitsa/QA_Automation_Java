@@ -20,6 +20,8 @@ public class TransactionDAOImpl implements TransactionDAO {
     private static final String SQL_FIND_TRANSACTION_BY_USER_ID
             = "SELECT t.transaction_id, t.type_transaction as typeTransaction, t.account_id, t.amount FROM transactions t" +
             "INNER JOIN accounts a on t.accounts_id=a.accounts_id WHERE a.account_id=?";
+    private static final String SQL_ADD_TRANSACTION
+            = "INSERT INTO transactions (type_transaction, account_id, amount) values(?,?,?)";
     @Override
     public List<Transaction> findAll() throws DAOException {
         List<Transaction> transactions = new ArrayList<>();
@@ -47,7 +49,22 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public boolean add(Transaction transaction) throws DAOException {
-        return false;
+        boolean isAdded;
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_ADD_TRANSACTION)) {
+            statement.setString(1, String.valueOf(transaction.getTypeTransaction()));
+            statement.setInt(2,transaction.getAccount_id());
+            statement.setBigDecimal(3, transaction.getAmount());
+            int counter = statement.executeUpdate();
+            if (counter != 0) {
+                isAdded = true;
+            } else {
+                isAdded = false;
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Failed attempt to add new account to the database");
+        }
+        return isAdded;
     }
 
     private Transaction retrieve(ResultSet resultSet) throws SQLException {

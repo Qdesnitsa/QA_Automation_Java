@@ -12,7 +12,7 @@
             margin-top: 20px;
         }
 
-        .sign_out {
+        .sign_out, .show_accounts {
             position: relative;
             left: 50%;
             transform: translate(-50%, 0);
@@ -67,7 +67,7 @@
                                     name="account_id"
                                     class="account_id"
                                     placeholder="account id"
-                                    pattern="[\d]"
+                                    pattern="[\d]+"
                             /><br/>
                         </th>
                         <th width="33%">
@@ -77,7 +77,7 @@
                                     name="sum"
                                     class="sum"
                                     placeholder="sum"
-                                    pattern="[\d]"
+                                    pattern="[\d]+"
                             /><br/>
                         </th>
                     </tr>
@@ -124,6 +124,9 @@
             </fieldset>
 
         </caption>
+        <button type="submit" class="show_accounts" name="show_accounts">
+            Update list and balances of my accounts
+        </button>
     </form>
 </table>
 

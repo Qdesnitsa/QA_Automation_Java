@@ -28,6 +28,7 @@ public class ActionServlet extends BasePageServlet {
             " and final balance greater then 2_000_000_000.";
     private final BigDecimal MAX_TRANSACTION_AMOUNT = BigDecimal.valueOf(100_000_000);
     private final BigDecimal MAX_BALANCE_AMOUNT = BigDecimal.valueOf(2_000_000_000);
+    private final BigDecimal MIN_BALANCE_AMOUNT = BigDecimal.valueOf(0);
 
     public ActionServlet() {
         super("/page/home.jsp", false);
@@ -46,6 +47,8 @@ public class ActionServlet extends BasePageServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        //Не забыть вынести в отдельный Сервлет!
         if (request.getParameter("replenish") != null) {
 
             Transaction transaction = null;
@@ -54,7 +57,7 @@ public class ActionServlet extends BasePageServlet {
                         .setTypeTransaction(Transaction.TypeTransaction.REPLENISHMENT)
                         .setAccount_id(accountDAO.findByAccountId(Integer.parseInt(request.getParameter("account_id")))
                                 .get().getAccount_id())
-                        .setAmount(BigDecimal.valueOf(Long.parseLong(request.getParameter("sum"))))
+                        .setAmount(BigDecimal.valueOf(Double.parseDouble(request.getParameter("sum"))))
                         .build();
             } catch (DAOException e) {
                 throw new RuntimeException(e);
@@ -88,12 +91,53 @@ public class ActionServlet extends BasePageServlet {
                 request.setAttribute("message", MSG_TOO_BIG_TRANSACTION);
                 getServletContext().getRequestDispatcher("/page/home.jsp").forward(request, response);
             }
+
+            //Не забыть вынести в отдельный Сервлет!
         } else if (request.getParameter("withdraw") != null) {
 
+            Transaction transaction = null;
+            try {
+                transaction = new Transaction.Builder()
+                        .setTypeTransaction(Transaction.TypeTransaction.DRAWING)
+                        .setAccount_id(accountDAO.findByAccountId(Integer.parseInt(request.getParameter("account_id")))
+                                .get().getAccount_id())
+                        .setAmount(BigDecimal.valueOf(Double.parseDouble(request.getParameter("sum")))
+                                .multiply(BigDecimal.valueOf(-1)))
+                        .build();
+            } catch (DAOException e) {
+                throw new RuntimeException(e);
+            }
+            BigDecimal currentBalance = null;
+            try {
+                currentBalance = accountDAO.getBalanceByCurrencyAndUserId(
+                        Integer.parseInt(String.valueOf(session.getAttribute("user_id"))),
+                        accountDAO.findByAccountId(Integer.parseInt(request.getParameter("account_id")))
+                                .get().getCurrency()).get().getBalance();
+            } catch (DAOException ex) {
+                throw new RuntimeException(ex);
+            }
 
-            // Invoke SecondServlet job here.
+            if (null == currentBalance) {
+                currentBalance = BigDecimal.valueOf(0);
+            }
 
+            BigDecimal balanceAfterTransaction = currentBalance.add(transaction.getAmount());
+
+            if (MAX_TRANSACTION_AMOUNT.multiply(BigDecimal.valueOf(-1)).compareTo(transaction.getAmount()) < 0 &&
+                    MIN_BALANCE_AMOUNT.compareTo(balanceAfterTransaction) < 0) {
+                try {
+                    transactionDAO.add(transaction);
+                } catch (DAOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                request.setAttribute("message", MSG_REPLENISHMENT_SUCCESS);
+                getServletContext().getRequestDispatcher("/page/home.jsp").forward(request, response);
+            } else {
+                request.setAttribute("message", MSG_TOO_BIG_TRANSACTION);
+                getServletContext().getRequestDispatcher("/page/home.jsp").forward(request, response);
+            }
             
+            //Не забыть вынести в отдельный Сервлет!
         } else if (request.getParameter("create") != null) {
 
             try {
@@ -135,6 +179,7 @@ public class ActionServlet extends BasePageServlet {
                 throw new RuntimeException(ex);
             }
 
+            //Не забыть вынести в отдельный Сервлет!
         } else if (request.getParameter("show_accounts") != null) {
             try {
                 List<Account> accounts = accountDAO.findByUserId(userDAO.findUserByEmail(String.valueOf(

@@ -77,7 +77,7 @@
                                     name="sum"
                                     class="sum"
                                     placeholder="sum"
-                                    pattern="[\d]+"
+                                    pattern="[[\d]+[.]?[0-9]{3}]"
                             /><br/>
                         </th>
                     </tr>

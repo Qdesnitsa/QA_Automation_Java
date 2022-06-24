@@ -9,6 +9,7 @@ import by.it_academy.l3_sql_jdbc.dao.repository.TransactionDAO;
 import by.it_academy.l3_sql_jdbc.dao.repository.UserDAO;
 import by.it_academy.l3_sql_jdbc.entity.Account;
 import by.it_academy.l3_sql_jdbc.entity.Transaction;
+import by.it_academy.l3_sql_jdbc.entity.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -23,15 +24,15 @@ import java.util.Optional;
 public class ActionServlet extends BasePageServlet {
     private final String MSG_ACCOUNT_EXISTS = "Account in this currency already exists.";
     private final String MSG_ACCOUNT_SUCCESS = "Account is successfully added.";
-    private final String MSG_REPLENISHMENT_SUCCESS = "Account is successfully replenished.";
-    private final String MSG_TOO_BIG_TRANSACTION = "Transaction amount should not be greater then 100_000_000" +
-            " and final balance greater then 2_000_000_000.";
+    private final String MSG_REPLENISHMENT_SUCCESS = "Transaction is successfully completed.";
+    private final String MSG_TOO_BIG_TRANSACTION = "Transaction amount should be less than 100_000_000" +
+            " and final balance between 0 and 2_000_000_000.";
     private final BigDecimal MAX_TRANSACTION_AMOUNT = BigDecimal.valueOf(100_000_000);
     private final BigDecimal MAX_BALANCE_AMOUNT = BigDecimal.valueOf(2_000_000_000);
     private final BigDecimal MIN_BALANCE_AMOUNT = BigDecimal.valueOf(0);
 
     public ActionServlet() {
-        super("/page/home.jsp", false);
+        super("/page/home.jsp", true);
     }
 
     @Override
@@ -39,9 +40,9 @@ public class ActionServlet extends BasePageServlet {
         HttpSession session = request.getSession();
         request.setAttribute("user_id", session.getAttribute("user_id"));
         request.setAttribute("email", session.getAttribute("email"));
-        AccountDAO accountDAO = new AccountDAOImpl();
-        TransactionDAO transactionDAO = new TransactionDAOImpl();
-        UserDAO userDAO;
+        AccountDAO<Account> accountDAO = new AccountDAOImpl();
+        TransactionDAO<Transaction> transactionDAO = new TransactionDAOImpl();
+        UserDAO<User> userDAO;
         try {
             userDAO = new UserDAOImpl();
         } catch (SQLException e) {
@@ -63,9 +64,11 @@ public class ActionServlet extends BasePageServlet {
                 throw new RuntimeException(e);
             }
             BigDecimal currentBalance = null;
+
             try {
                 currentBalance = accountDAO.getBalanceByCurrencyAndUserId(
-                        Integer.parseInt(String.valueOf(session.getAttribute("user_id"))),
+                        Integer.parseInt(String.valueOf(userDAO.findUserByEmail(String.valueOf(
+                                session.getAttribute("email"))).get().getId())),
                         accountDAO.findByAccountId(Integer.parseInt(request.getParameter("account_id")))
                                 .get().getCurrency()).get().getBalance();
             } catch (DAOException ex) {
@@ -107,10 +110,13 @@ public class ActionServlet extends BasePageServlet {
             } catch (DAOException e) {
                 throw new RuntimeException(e);
             }
+
             BigDecimal currentBalance = null;
+
             try {
                 currentBalance = accountDAO.getBalanceByCurrencyAndUserId(
-                        Integer.parseInt(String.valueOf(session.getAttribute("user_id"))),
+                        Integer.parseInt(String.valueOf(userDAO.findUserByEmail(String.valueOf(
+                                session.getAttribute("email"))).get().getId())),
                         accountDAO.findByAccountId(Integer.parseInt(request.getParameter("account_id")))
                                 .get().getCurrency()).get().getBalance();
             } catch (DAOException ex) {
@@ -124,7 +130,7 @@ public class ActionServlet extends BasePageServlet {
             BigDecimal balanceAfterTransaction = currentBalance.add(transaction.getAmount());
 
             if (MAX_TRANSACTION_AMOUNT.multiply(BigDecimal.valueOf(-1)).compareTo(transaction.getAmount()) < 0 &&
-                    MIN_BALANCE_AMOUNT.compareTo(balanceAfterTransaction) < 0) {
+                    MIN_BALANCE_AMOUNT.compareTo(balanceAfterTransaction) <= 0) {
                 try {
                     transactionDAO.add(transaction);
                 } catch (DAOException ex) {
@@ -136,7 +142,7 @@ public class ActionServlet extends BasePageServlet {
                 request.setAttribute("message", MSG_TOO_BIG_TRANSACTION);
                 getServletContext().getRequestDispatcher("/page/home.jsp").forward(request, response);
             }
-            
+
             //Не забыть вынести в отдельный Сервлет!
         } else if (request.getParameter("create") != null) {
 
@@ -163,8 +169,8 @@ public class ActionServlet extends BasePageServlet {
                             .setTypeTransaction(Transaction.TypeTransaction.REPLENISHMENT)
                             .setAccount_id(accountDAO.getBalanceByCurrencyAndUserId(
                                     Integer.parseInt(String.valueOf(userDAO.findUserByEmail(String.valueOf(
-                                            session.getAttribute("email"))).get().getId())),Account.Currency.valueOf(
-                                                    request.getParameter("type"))).get().getAccount_id())
+                                            session.getAttribute("email"))).get().getId())), Account.Currency.valueOf(
+                                            request.getParameter("type"))).get().getAccount_id())
                             .setAmount(BigDecimal.valueOf(0))
                             .build();
                     transactionDAO.add(transaction);
@@ -189,6 +195,11 @@ public class ActionServlet extends BasePageServlet {
             } catch (DAOException e) {
                 throw new RuntimeException(e);
             }
+
+            //Не забыть вынести в отдельный Сервлет!
+        } else if (request.getParameter("sign_out") != null) {
+            session.invalidate();
+            getServletContext().getRequestDispatcher("/page/sign_in.jsp").forward(request, response);
         }
     }
 }

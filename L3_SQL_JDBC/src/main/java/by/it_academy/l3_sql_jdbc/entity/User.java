@@ -9,7 +9,8 @@ public class User {
     private String email;
     private String password;
 
-    private User() {}
+    private User() {
+    }
 
     public User(int id, String name, String address, String email) {
         this.id = id;
@@ -34,7 +35,9 @@ public class User {
         return email;
     }
 
-    public String getPassword() { return password; }
+    public String getPassword() {
+        return password;
+    }
 
     @Override
     public boolean equals(Object o) {

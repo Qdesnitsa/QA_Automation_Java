@@ -26,6 +26,7 @@
         H2, .total {
             text-align: center;
         }
+
         .msg {
             text-align: center;
             color: red;
@@ -34,8 +35,9 @@
     </style>
 </head>
 <body>
+<form action="ActionServlet" method="POST">
 <h4>
-    <button type="submit" class="sign_out">
+    <button type="submit" class="sign_out" name="sign_out">
         Sign out
     </button>
 </h4>
@@ -48,12 +50,12 @@
     </div>
 </c:forEach>
 <div class="msg"><br>
-<c:if test="${message != null}">
-    <h4> <c:out value="${message}" default="guest" /></h4>
-</c:if>
+    <c:if test="${message != null}">
+        <h4><c:out value="${message}" default="guest"/></h4>
+    </c:if>
 </div>
 <table class="table" align="center">
-    <form action="ActionServlet" method="POST">
+
         <caption>
             <h2>Operations with my accounts</h2>
             <fieldset>
@@ -116,9 +118,9 @@
                     </tr>
                 </table>
 
-                    <button type="submit" class="create" name="create">
-                        Create new account
-                    </button>
+                <button type="submit" class="create" name="create">
+                    Create new account
+                </button>
                 </div>
                 </div>
             </fieldset>
@@ -127,8 +129,7 @@
         <button type="submit" class="show_accounts" name="show_accounts">
             Update list and balances of my accounts
         </button>
-    </form>
 </table>
-
+</form>
 </body>
 </html>

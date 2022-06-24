@@ -13,7 +13,8 @@ public class Account {
         BYN, RUB, PLN, USD, EUR, GBP, CAD, CNY, NZD, CHF
     }
 
-    private Account() {}
+    private Account() {
+    }
 
     public Account(int account_id, int user_id, BigDecimal balance, Currency currency) {
         this.account_id = account_id;

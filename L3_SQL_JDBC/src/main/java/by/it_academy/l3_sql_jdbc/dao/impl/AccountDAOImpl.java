@@ -13,18 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class AccountDAOImpl implements AccountDAO {
+public class AccountDAOImpl implements AccountDAO<Account> {
     private static final String SQL_FIND_ALL_ACCOUNTS
             = "SELECT a.account_id, a.user_id, sum(t.amount) as balance, a.currency as currency, u.name, u.address, u.email" +
             " FROM accounts a INNER JOIN  users u ON u.user_id=a.user_id " +
-            "INNER JOIN transactions t ON t.account_id=a.account_id";
+            "LEFT JOIN transactions t ON t.account_id=a.account_id";
     private static final String SQL_FIND_ACCOUNT_BY_ID
             = "SELECT a.account_id, a.user_id, sum(t.amount) as balance, a.currency as currency, u.name, u.address, u.email" +
             " FROM accounts a INNER JOIN users u on u.user_id=a.user_id " +
             "LEFT JOIN transactions t ON t.account_id=a.account_id WHERE a.account_id=?";
     private static final String SQL_FIND_ACCOUNT_BY_USER_ID
-            = "SELECT a.account_id, a.user_id as user_id, sum(t.amount) as balance, a.currency as currency, u.name, u.address, u.email" +
-            " FROM accounts a INNER JOIN users u on u.user_id=a.user_id " +
+            = "SELECT a.account_id, a.user_id as user_id, sum(t.amount) as balance, a.currency as currency, " +
+            "u.name, u.address, u.email FROM accounts a INNER JOIN users u on u.user_id=a.user_id " +
             "INNER JOIN transactions t ON t.account_id=a.account_id WHERE u.user_id=?" +
             "GROUP BY currency ORDER BY a.account_id";
     private static final String SQL_GET_BALANCE_BY_USER_ID_AND_CURRENCY
@@ -107,7 +107,7 @@ public class AccountDAOImpl implements AccountDAO {
             statement.setInt(1, user_id);
             statement.setString(2, currency.toString());
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next() && null !=resultSet.getString("currency")) {
+            if (resultSet.next() && null != resultSet.getString("currency")) {
                 Account account = retrieve(resultSet);
                 optional = Optional.of(account);
             } else {
@@ -117,12 +117,6 @@ public class AccountDAOImpl implements AccountDAO {
             throw new DAOException("Failed attempt to find balance by user ID and currency in the database");
         }
         return optional;
-    }
-
-    public static void main(String[] args) throws DAOException {
-        AccountDAOImpl accountDAO = new AccountDAOImpl();
-        Optional<Account> account = accountDAO.getBalanceByCurrencyAndUserId(33,Account.Currency.CAD);
-        System.out.println(account);
     }
 
     private Account retrieve(ResultSet resultSet) throws SQLException {

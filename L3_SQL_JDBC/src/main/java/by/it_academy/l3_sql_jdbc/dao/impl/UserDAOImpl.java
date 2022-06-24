@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDAOImpl implements UserDAO {
+public class UserDAOImpl implements UserDAO<User> {
     private static final String SQL_FIND_ALL_USERS
             = "SELECT user_id, name, address, email FROM users";
     private static final String SQL_FIND_USER_BY_ID

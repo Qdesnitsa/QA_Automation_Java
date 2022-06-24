@@ -13,7 +13,8 @@ public class Transaction {
         REPLENISHMENT, DRAWING
     }
 
-    private Transaction() {}
+    private Transaction() {
+    }
 
     public Transaction(BigDecimal amount, int account_id, TypeTransaction typeTransaction) {
         this.amount = amount;
@@ -24,6 +25,7 @@ public class Transaction {
     public int getId() {
         return id;
     }
+
     public int getAccount_id() {
         return account_id;
     }
@@ -41,7 +43,8 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return id == that.id && account_id == that.account_id && Objects.equals(amount, that.amount) && typeTransaction == that.typeTransaction;
+        return id == that.id && account_id == that.account_id && Objects.equals(amount, that.amount) &&
+                typeTransaction == that.typeTransaction;
     }
 
     @Override
@@ -61,6 +64,7 @@ public class Transaction {
 
     public static class Builder {
         private final Transaction newTransaction;
+
         public Builder() {
             newTransaction = new Transaction();
         }

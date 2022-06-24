@@ -11,11 +11,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import static java.util.Optional.empty;
-
 @WebServlet(name = "SignUpServlet", value = "/sign-up")
 public class SignUpServlet extends BasePageServlet {
     private static final String MSG_USER_EXISTS = "User with such email already exists.";
+
     public SignUpServlet() {
         super("/page/sign_up.jsp", false);
     }
@@ -31,8 +30,8 @@ public class SignUpServlet extends BasePageServlet {
         try {
             if (Optional.empty().equals(userDao.findPasswordByEmail(request.getParameter("email")))) {
                 HttpSession session = request.getSession();
-                session.setAttribute("name",request.getParameter("name"));
-                session.setAttribute("email",request.getParameter("email"));
+                session.setAttribute("name", request.getParameter("name"));
+                session.setAttribute("email", request.getParameter("email"));
 
                 User user = new User.Builder()
                         .setAddress(request.getParameter("address"))
@@ -45,12 +44,11 @@ public class SignUpServlet extends BasePageServlet {
                 try {
                     userDao.add(user);
                     getServletContext().getRequestDispatcher("/page/home.jsp").forward(request, response);
-                    //response.sendRedirect("/L3_SQL_JDBC/home");
                 } catch (DAOException e) {
                     throw new RuntimeException(e);
                 }
             } else {
-                request.setAttribute("message",MSG_USER_EXISTS);
+                request.setAttribute("message", MSG_USER_EXISTS);
                 getServletContext().getRequestDispatcher("/page/sign_up.jsp").forward(request, response);
             }
         } catch (DAOException e) {

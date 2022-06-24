@@ -16,6 +16,7 @@ import java.util.Optional;
 @WebServlet(name = "SignInServlet", value = "/sign-in")
 public class SignInServlet extends BasePageServlet {
     private final String MSG_EMAIL_AND_PSW_NOT_MATCH = "Email or password is incorrect.";
+
     public SignInServlet() {
         super("/page/sign_in.jsp", false);
     }
@@ -34,14 +35,14 @@ public class SignInServlet extends BasePageServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("email", request.getParameter("email"));
                 session.setAttribute("name", userDao.findUserByEmail(request.getParameter("email")).get().getName());
-                session.setAttribute("user_id",userDao.findUserByEmail(request.getParameter("email")).get().getId());
+                session.setAttribute("user_id", userDao.findUserByEmail(request.getParameter("email")).get().getId());
                 userDao.findUserByEmail(request.getParameter("email"));
                 List<Account> accounts = new AccountDAOImpl()
                         .findByUserId(userDao.findUserByEmail(request.getParameter("email")).get().getId());
-                request.setAttribute("accounts",accounts);
+                request.setAttribute("accounts", accounts);
                 getServletContext().getRequestDispatcher("/page/home.jsp").forward(request, response);
             } else {
-                request.setAttribute("message",MSG_EMAIL_AND_PSW_NOT_MATCH);
+                request.setAttribute("message", MSG_EMAIL_AND_PSW_NOT_MATCH);
                 getServletContext().getRequestDispatcher("/page/sign_in.jsp").forward(request, response);
             }
             //response.sendRedirect("/L3_SQL_JDBC/home");

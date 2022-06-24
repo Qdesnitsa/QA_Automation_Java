@@ -24,13 +24,6 @@ public abstract class BasePageServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         this.goToPage(this.page, request, response);
-//        if(isRequestAuthorized == null && this.pageAvailableOnlyForAuthorizedRequest) {
-//            this.goToPage(this.page, request, response);
-//        } else if (this.pageAvailableOnlyForAuthorizedRequest) {
-//            this.goToPage("/page/sign-in.jsp", request, response);
-//        } else {
-//            this.goToPage("/pages/home.jsp", request, response);
-//        }
     }
 
     protected void goToPage(String page, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

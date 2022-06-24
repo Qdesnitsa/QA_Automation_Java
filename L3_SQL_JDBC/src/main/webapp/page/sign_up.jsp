@@ -145,7 +145,7 @@
         "click",
         function () {
             if (input.value === "") {
-                $(".error").html("All fields are mandatory.");
+                $(".error").html("All fields except address are mandatory.");
             }
         },
         false

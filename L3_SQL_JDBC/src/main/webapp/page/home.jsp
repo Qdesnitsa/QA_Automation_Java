@@ -36,25 +36,25 @@
 </head>
 <body>
 <form action="ActionServlet" method="POST">
-<h4>
-    <button type="submit" class="sign_out" name="sign_out">
-        Sign out
-    </button>
-</h4>
-<h2>Hello, ${name} !</h2>
-<div class="total">List of your accounts and balances:</div>
-<c:forEach var="account" items="${accounts}">
-    <div class="total">
-        Account ID = ${account.getAccount_id()};
-        Balance = ${account.getBalance()} ${account.getCurrency()}
+    <h4>
+        <button type="submit" class="sign_out" name="sign_out">
+            Sign out
+        </button>
+    </h4>
+    <h2>Hello, ${name} !</h2>
+    <div class="total">List of your accounts and balances:</div>
+    <c:forEach var="account" items="${accounts}">
+        <div class="total">
+            Account ID = ${account.getAccount_id()};
+            Balance = ${account.getBalance()} ${account.getCurrency()}
+        </div>
+    </c:forEach>
+    <div class="msg"><br>
+        <c:if test="${message != null}">
+            <h4><c:out value="${message}" default="guest"/></h4>
+        </c:if>
     </div>
-</c:forEach>
-<div class="msg"><br>
-    <c:if test="${message != null}">
-        <h4><c:out value="${message}" default="guest"/></h4>
-    </c:if>
-</div>
-<table class="table" align="center">
+    <table class="table" align="center">
 
         <caption>
             <h2>Operations with my accounts</h2>
@@ -93,7 +93,7 @@
                         Withdraw money
                     </button>
                 </div>
-                </div>
+
             </fieldset>
 
             <fieldset>
@@ -121,15 +121,13 @@
                 <button type="submit" class="create" name="create">
                     Create new account
                 </button>
-                </div>
-                </div>
             </fieldset>
 
         </caption>
         <button type="submit" class="show_accounts" name="show_accounts">
             Update list and balances of my accounts
         </button>
-</table>
+    </table>
 </form>
 </body>
 </html>

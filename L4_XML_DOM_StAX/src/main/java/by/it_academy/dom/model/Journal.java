@@ -7,6 +7,8 @@ public class Journal {
     private Contact contact;
     private List<Article> articles;
 
+    public Journal() {}
+
     public Journal(String title, Contact contact, List<Article> articles) {
         this.title = title;
         this.contact = contact;
@@ -40,9 +42,9 @@ public class Journal {
     @Override
     public String toString() {
         return getClass().getSimpleName() +
-                "title='" + title + '\'' +
-                ", contact=" + contact +
-                ", articles=" + articles +
-                '}';
+                " title='" + title + '\'' +
+                ", \ncontact=" + contact +
+                ", \narticles=" + articles +
+                "}";
     }
 }

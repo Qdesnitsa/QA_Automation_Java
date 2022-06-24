@@ -4,33 +4,39 @@
 <html lang="en">
 <head>
     <title>Login</title>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <style>
         body {
             background-color: #ffe4e1;
         }
+
         H2 {
             font-size: 40px;
         }
+
         DIV.container {
             margin-top: 100px;
             text-align: center;
             vertical-align: middle;
         }
+
         DIV.input-form {
             height: 40px;
             padding-bottom: 20px;
         }
+
         .form-control {
             height: 30px;
             width: 300px;
         }
+
         .login_btn {
             height: 40px;
             width: 100px;
             font-weight: 600;
             font-size: 16px;
         }
+
         .card-footer {
             text-align: center;
             margin-top: 20px;
@@ -43,7 +49,7 @@
         <div class="card-header">
             <h2>Sign In</h2>
             <c:if test="${message != null}">
-                <h4> <c:out value="${message}" default="guest" /></h4>
+                <h4><c:out value="${message}" default="guest"/></h4>
             </c:if>
         </div>
         <div class="card-body">

@@ -4,13 +4,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class Article {
-    private int id;
+    private String id;
     private String title;
     private String author;
     private String url;
     private List<String> hotkeys;
 
-    public Article(int id, String title, String author, String url, List<String> hotkeys) {
+    public Article() {}
+
+    public Article(String id, String title, String author, String url, List<String> hotkeys) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -18,11 +20,11 @@ public class Article {
         this.hotkeys = hotkeys;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -75,11 +77,11 @@ public class Article {
     @Override
     public String toString() {
         return getClass().getSimpleName() +
-                "id=" + id +
+                " id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", url='" + url + '\'' +
                 ", hotkeys=" + hotkeys +
-                '}';
+                "}";
     }
 }

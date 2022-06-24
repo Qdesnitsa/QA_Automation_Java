@@ -8,6 +8,8 @@ public class Contact {
     private String email;
     private String url;
 
+    public Contact() {}
+
     public Contact(String address, String tel, String email, String url) {
         this.address = address;
         this.tel = tel;
@@ -64,7 +66,7 @@ public class Contact {
     @Override
     public String toString() {
         return getClass().getSimpleName() +
-                "address='" + address + '\'' +
+                " address='" + address + '\'' +
                 ", tel='" + tel + '\'' +
                 ", email='" + email + '\'' +
                 ", url='" + url + '\'' +

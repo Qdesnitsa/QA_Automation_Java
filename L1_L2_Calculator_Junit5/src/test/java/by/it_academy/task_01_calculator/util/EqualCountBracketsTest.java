@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Execution(ExecutionMode.CONCURRENT)
 @Tag("utils")
@@ -23,8 +24,8 @@ public class EqualCountBracketsTest {
     @DisplayName("Count unequal number of brackets, expected RuntimeException")
     @Test
     void testEqualNumberOfBracketsInExpressionThrowException() {
-        Assertions.assertThrows(RuntimeException.class, () -> {
+        assertThrows(RuntimeException.class, () -> {
             ValidInput.equalCountBrackets("(((6+6)*6");
-        });
+        }, "Expected to throw Exception, but it didn't");
     }
 }

@@ -12,6 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @Execution(ExecutionMode.CONCURRENT)
@@ -21,7 +22,7 @@ public class DivisionTest {
     @DisplayName("Division by zero, expected DivisionByZeroException")
     @Test
     public void testDivisionByZeroExpectedDivisionByZeroException() {
-        Assertions.assertThrows(DivisionByZeroException.class, () -> {
+        assertThrows(DivisionByZeroException.class, () -> {
             ICalculator.divide(10.0, 0.0);
         });
     }
@@ -31,7 +32,7 @@ public class DivisionTest {
         DivisionByZeroException thrown = Assertions.assertThrows(DivisionByZeroException.class, () -> {
             ICalculator.divide(10.0, 0.0);
         }, "DivisionByZeroException was expected");
-        Assertions.assertEquals(" Division by zero is prohibited.", thrown.getMessage());
+        assertEquals(" Division by zero is prohibited.", thrown.getMessage());
     }
 
     @ParameterizedTest

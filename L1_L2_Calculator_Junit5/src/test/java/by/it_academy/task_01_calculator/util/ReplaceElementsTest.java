@@ -9,6 +9,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,16 +37,14 @@ public class ReplaceElementsTest {
         elements = parser.replaceNumbersWithSign(list);
         assertThat(elements)
                 .hasSize(7)
-                .isEqualTo(Arrays.asList("(", "3,7", "+", "-3", ")", "/", "-6,55"));
+                .containsExactlyElementsOf(Arrays.asList("(", "3,7", "+", "-3", ")", "/", "-6,55"));
     }
 
     @Test
     public void testIsCommasReplacedWithDots() {
         List<String> newArray = new ArrayList<>();
-        for (String element : list) {
-            element = parser.replaceCommaWithDot(element);
-            newArray.add(element);
-        }
-        assertThat(newArray).isEqualTo(Arrays.asList("(", "3.7", "-3", ")", "/", "-6.55"));
+        newArray = list.stream().map(p->parser.replaceCommaWithDot(p)).collect(Collectors.toList());
+        assertThat(newArray).as("Commas were not replaced with dots")
+                .isEqualTo(Arrays.asList("(", "3.7", "-3", ")", "/", "-6.55"));
     }
 }

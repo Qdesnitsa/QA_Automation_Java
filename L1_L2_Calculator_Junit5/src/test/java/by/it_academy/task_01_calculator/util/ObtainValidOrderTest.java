@@ -11,6 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Execution(ExecutionMode.CONCURRENT)
 @Tag("utils")
@@ -18,7 +19,7 @@ public class ObtainValidOrderTest {
     @DisplayName("Incorrect order of operations, expected RuntimeException")
     @Test
     void testIncorrectInputOrderOfElementsFromUserException() {
-        Assertions.assertThrows(RuntimeException.class, () -> {
+        assertThrows(RuntimeException.class, () -> {
             ValidInput.obtainValidOrder("4//*-4");
         });
     }
@@ -26,7 +27,7 @@ public class ObtainValidOrderTest {
     @DisplayName("Incorrect usage of brackets, expected RuntimeException")
     @Test
     void testIncorrectInputOrderOfElementsFromUserException2() {
-        Assertions.assertThrows(RuntimeException.class, () -> {
+        assertThrows(RuntimeException.class, () -> {
             ValidInput.obtainValidOrder("(55-7*)");
         });
     }

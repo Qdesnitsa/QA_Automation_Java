@@ -19,8 +19,15 @@ public class StAXParser {
     private Article curArticle = null;
     private String tagContent = null;
 
-    public void parseXML() {
-        XMLStreamReader reader = StaxParserUtils.createXMLStreamReader(XML_PATH);
+    public void parseXMLAndPrintJournal() throws XMLStreamException {
+        parseXML();
+        journal.setContact(contact);
+        journal.setArticles(articles);
+        System.out.println(journal);
+    }
+
+    public void parseXML() throws XMLStreamException {
+        XMLStreamReader reader = StaxParserUtil.createXMLStreamReader(XML_PATH);
         if (null != reader) {
             try {
                 while (reader.hasNext()) {
@@ -86,13 +93,6 @@ public class StAXParser {
                 curArticle.setUrl(tagContent);
                 break;
         }
-    }
-
-    public void parseXMLAndPrintJournal() {
-        parseXML();
-        journal.setContact(contact);
-        journal.setArticles(articles);
-        System.out.println(journal);
     }
 }
 

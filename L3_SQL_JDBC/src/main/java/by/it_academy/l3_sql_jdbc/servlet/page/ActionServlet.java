@@ -56,7 +56,7 @@ public class ActionServlet extends BasePageServlet {
             try {
                 transaction = new Transaction.Builder()
                         .setTypeTransaction(Transaction.TypeTransaction.REPLENISHMENT)
-                        .setAccount_id(accountDAO.findByAccountId(Integer.parseInt(request.getParameter("account_id")))
+                        .setAccount_id(accountDAO.findById(Integer.parseInt(request.getParameter("account_id")))
                                 .get().getAccount_id())
                         .setAmount(BigDecimal.valueOf(Double.parseDouble(request.getParameter("sum"))))
                         .build();
@@ -69,7 +69,7 @@ public class ActionServlet extends BasePageServlet {
                 currentBalance = accountDAO.getBalanceByCurrencyAndUserId(
                         Integer.parseInt(String.valueOf(userDAO.findUserByEmail(String.valueOf(
                                 session.getAttribute("email"))).get().getId())),
-                        accountDAO.findByAccountId(Integer.parseInt(request.getParameter("account_id")))
+                        accountDAO.findById(Integer.parseInt(request.getParameter("account_id")))
                                 .get().getCurrency()).get().getBalance();
             } catch (DAOException ex) {
                 throw new RuntimeException(ex);
@@ -102,7 +102,7 @@ public class ActionServlet extends BasePageServlet {
             try {
                 transaction = new Transaction.Builder()
                         .setTypeTransaction(Transaction.TypeTransaction.DRAWING)
-                        .setAccount_id(accountDAO.findByAccountId(Integer.parseInt(request.getParameter("account_id")))
+                        .setAccount_id(accountDAO.findById(Integer.parseInt(request.getParameter("account_id")))
                                 .get().getAccount_id())
                         .setAmount(BigDecimal.valueOf(Double.parseDouble(request.getParameter("sum")))
                                 .multiply(BigDecimal.valueOf(-1)))
@@ -117,7 +117,7 @@ public class ActionServlet extends BasePageServlet {
                 currentBalance = accountDAO.getBalanceByCurrencyAndUserId(
                         Integer.parseInt(String.valueOf(userDAO.findUserByEmail(String.valueOf(
                                 session.getAttribute("email"))).get().getId())),
-                        accountDAO.findByAccountId(Integer.parseInt(request.getParameter("account_id")))
+                        accountDAO.findById(Integer.parseInt(request.getParameter("account_id")))
                                 .get().getCurrency()).get().getBalance();
             } catch (DAOException ex) {
                 throw new RuntimeException(ex);
@@ -159,7 +159,7 @@ public class ActionServlet extends BasePageServlet {
                                     session.getAttribute("email"))).get().getId())))
                             .build();
                     try {
-                        accountDAO.addAccount(account);
+                        accountDAO.add(account);
                     } catch (DAOException e) {
                         throw new RuntimeException(e);
                     }

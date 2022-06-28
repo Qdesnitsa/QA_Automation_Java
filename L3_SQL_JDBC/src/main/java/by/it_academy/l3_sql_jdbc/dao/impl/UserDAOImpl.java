@@ -47,7 +47,7 @@ public class UserDAOImpl implements UserDAO<User> {
 
 
     @Override
-    public Optional<User> find(int id) throws DAOException {
+    public Optional<User> findById(int id) throws DAOException {
         Optional<User> optional = Optional.empty();
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_ID)) {

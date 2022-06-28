@@ -49,7 +49,7 @@ public class AccountDAOImpl implements AccountDAO<Account> {
     }
 
     @Override
-    public Optional<Account> findByAccountId(int id) throws DAOException {
+    public Optional<Account> findById(int id) throws DAOException {
         Optional<Account> optional = Optional.empty();
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_ACCOUNT_BY_ID)) {
@@ -81,7 +81,7 @@ public class AccountDAOImpl implements AccountDAO<Account> {
     }
 
     @Override
-    public boolean addAccount(Account account) throws DAOException {
+    public boolean add(Account account) throws DAOException {
         boolean isAdded;
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_ADD_ACCOUNT)) {

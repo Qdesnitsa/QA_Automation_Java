@@ -4,6 +4,7 @@ import by.it_academy.l3_sql_jdbc.dao.connection.ConnectionFactory;
 import by.it_academy.l3_sql_jdbc.dao.exception.DAOException;
 import by.it_academy.l3_sql_jdbc.dao.repository.TransactionDAO;
 import by.it_academy.l3_sql_jdbc.entity.Transaction;
+import by.it_academy.l3_sql_jdbc.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,19 +12,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TransactionDAOImpl implements TransactionDAO<Transaction> {
     private static final String SQL_FIND_ALL_TRANSACTIONS
             = "SELECT transaction_id, type_transaction, account_id, amount FROM transactions";
     private static final String SQL_FIND_TRANSACTION_BY_USER_ID
             = "SELECT t.transaction_id, t.type_transaction as typeTransaction, t.account_id, t.amount " +
-            "FROM transactions t LEFT JOIN accounts a on t.accounts_id=a.accounts_id WHERE a.account_id=?";
+            "FROM transactions t LEFT JOIN accounts a on t.account_id=a.account_id WHERE a.user_id=?";
 
     private static final String SQL_FIND_TRANSACTION_BY_ACCOUNT_ID
             = "SELECT t.transaction_id, t.type_transaction as typeTransaction, t.account_id, t.amount " +
-            "FROM transactions t LEFT JOIN accounts a on t.accounts_id=a.accounts_id WHERE t.account_id=?";
+            "FROM transactions t LEFT JOIN accounts a on t.account_id=a.account_id WHERE t.account_id=?";
     private static final String SQL_ADD_TRANSACTION
             = "INSERT INTO transactions (type_transaction, account_id, amount) values(?,?,?)";
+
+    private static final String SQL_FIND_TRANSACTION_BY_ID
+            = "SELECT * FROM transactions WHERE transaction_id=?";
 
     @Override
     public List<Transaction> findAll() throws DAOException {
@@ -38,6 +43,23 @@ public class TransactionDAOImpl implements TransactionDAO<Transaction> {
             throw new DAOException("Failed attempt to find all transactions in the database");
         }
         return transactions;
+    }
+
+    @Override
+    public Optional<Transaction> findById(int id) throws DAOException {
+        Optional<Transaction> optional = Optional.empty();
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_TRANSACTION_BY_ID)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Transaction transaction = retrieve(resultSet);
+                optional = Optional.of(transaction);
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Failed attempt to find transactions by transaction ID in the database");
+        }
+        return optional;
     }
 
     @Override

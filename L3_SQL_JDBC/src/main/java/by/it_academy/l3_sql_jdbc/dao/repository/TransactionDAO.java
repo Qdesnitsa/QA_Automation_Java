@@ -6,13 +6,10 @@ import by.it_academy.l3_sql_jdbc.entity.Transaction;
 import java.util.List;
 import java.util.Optional;
 
-public interface TransactionDAO<T> {
-    List<T> findAll() throws DAOException;
+public interface TransactionDAO<T> extends BaseDAO<T>{
 
-    //Optional<Transaction> find(int id) throws DAOException;
     List<T> findByUserId(int id) throws DAOException;
 
     List<T> findByAccountId(int id) throws DAOException;
 
-    boolean add(T transaction) throws DAOException;
 }

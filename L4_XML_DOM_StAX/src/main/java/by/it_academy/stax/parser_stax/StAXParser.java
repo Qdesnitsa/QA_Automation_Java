@@ -14,8 +14,8 @@ public class StAXParser {
     private static final String XML_PATH = "journal.xml";
     private static List<Article> articles;
     private static List<String> hotkeys;
-    private static Journal journal = new Journal();
-    private static Contact contact = new Contact();
+    private static Journal journal;
+    private static Contact contact;
     private static Article article;
     private static String tagContent;
     private static int event;
@@ -50,7 +50,9 @@ public class StAXParser {
 
     public static void parseStartElement(XMLStreamReader reader) throws XMLStreamException {
         localName = reader.getLocalName();
-        if ("title".equals(localName)) {
+        if ("journal".equals(localName)) {
+            journal = new Journal();
+        } else if ("title".equals(localName)) {
             journal.setTitle(reader.getElementText());
         } else if ("contacts".equals(localName)) {
             parseContacts(reader);
@@ -66,21 +68,17 @@ public class StAXParser {
         event = reader.next();
         do {
             event = reader.next();
-            switch (event) {
-                case XMLStreamConstants.START_ELEMENT:
-                    localName = reader.getLocalName();
-                    if ("address".equals(localName)) {
-                        contact.setAddress(reader.getElementText());
-                    } else if ("tel".equals(localName)) {
-                        contact.setTel(reader.getElementText());
-                    } else if ("email".equals(localName)) {
-                        contact.setEmail(reader.getElementText());
-                    } else if ("url".equals(localName)) {
-                        contact.setUrl(reader.getElementText());
-                    } else if ("article".equals(localName)) {
-                        article = new Article();
-                        article.setId(reader.getAttributeValue(0));
-                    }
+            if (event == XMLStreamConstants.START_ELEMENT) {
+                localName = reader.getLocalName();
+                if ("address".equals(localName)) {
+                    contact.setAddress(reader.getElementText());
+                } else if ("tel".equals(localName)) {
+                    contact.setTel(reader.getElementText());
+                } else if ("email".equals(localName)) {
+                    contact.setEmail(reader.getElementText());
+                } else if ("url".equals(localName)) {
+                    contact.setUrl(reader.getElementText());
+                }
             }
         } while (reader.hasNext() && !localName.equals("contacts") && event != 2);
         journal.setContact(contact);
@@ -92,21 +90,20 @@ public class StAXParser {
         event = reader.next();
         do {
             event = reader.next();
-            switch (event) {
-                case XMLStreamConstants.START_ELEMENT:
-                    localName = reader.getLocalName();
-                    if ("title".equals(localName)) {
-                        article.setTitle(reader.getElementText());
-                    } else if ("author".equals(localName)) {
-                        article.setAuthor(reader.getElementText());
-                    } else if ("url".equals(localName)) {
-                        article.setUrl(reader.getElementText());
-                    } else if ("hotkeys".equals(localName)) {
-                        hotkeys = new ArrayList<>();
-                    } else if ("hotkey".equals(localName)) {
-                        hotkeys.add(reader.getElementText());
-                        article.setHotkeys(hotkeys);
-                    }
+            if (event == XMLStreamConstants.START_ELEMENT) {
+                localName = reader.getLocalName();
+                if ("title".equals(localName)) {
+                    article.setTitle(reader.getElementText());
+                } else if ("author".equals(localName)) {
+                    article.setAuthor(reader.getElementText());
+                } else if ("url".equals(localName)) {
+                    article.setUrl(reader.getElementText());
+                } else if ("hotkeys".equals(localName)) {
+                    hotkeys = new ArrayList<>();
+                } else if ("hotkey".equals(localName)) {
+                    hotkeys.add(reader.getElementText());
+                    article.setHotkeys(hotkeys);
+                }
             }
         }
         while (reader.hasNext() && !localName.equals("articles") && event != 2);

@@ -6,6 +6,6 @@ import javax.xml.stream.XMLStreamException;
 
 public class MainStAX {
     public static void main(String[] args) throws XMLStreamException {
-        new StAXParser().parseXMLAndPrintJournal();
+        StAXParser.parseXMLAndPrint();
     }
 }

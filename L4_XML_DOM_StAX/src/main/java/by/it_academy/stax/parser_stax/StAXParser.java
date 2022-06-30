@@ -11,27 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StAXParser {
-    private static final String XML_PATH = "journall.xml";
-    private List<Article> articles = null;
-    private List<String> hotkeys = null;
-    private Journal journal = new Journal();
-    private Contact contact = new Contact();
-    private Article curArticle = null;
-    private String tagContent = null;
+    private static final String XML_PATH = "journal.xml";
+    private static List<Article> articles;
+    private static List<String> hotkeys;
+    private static Journal journal = new Journal();
+    private static Contact contact = new Contact();
+    private static Article article;
+    private static String tagContent;
+    private static int event;
+    private static String localName;
 
-    public void parseXMLAndPrintJournal() throws XMLStreamException {
+    public static void parseXMLAndPrint() throws XMLStreamException {
         parseXML();
-        journal.setContact(contact);
-        journal.setArticles(articles);
         System.out.println(journal);
     }
 
-    public void parseXML() throws XMLStreamException {
+    public static void parseXML() throws XMLStreamException {
         XMLStreamReader reader = StaxParserUtil.createXMLStreamReader(XML_PATH);
         if (null != reader) {
             try {
                 while (reader.hasNext()) {
-                    int event = reader.next();
+                    event = reader.next();
                     switch (event) {
                         case XMLStreamConstants.START_ELEMENT:
                             parseStartElement(reader);
@@ -40,59 +40,80 @@ public class StAXParser {
                         case XMLStreamConstants.CHARACTERS:
                             tagContent = reader.getText().trim();
                             break;
-
-                        case XMLStreamConstants.END_ELEMENT:
-                            parseEndElement(reader);
-                            break;
                     }
                 }
             } catch (XMLStreamException e) {
-                e.printStackTrace();
-                System.out.println("XMLStreamException e");
+                throw new RuntimeException("Can not read file", e);
             }
         }
     }
 
-    public void parseStartElement(XMLStreamReader reader) throws XMLStreamException {
-        String localName = reader.getLocalName();
-        if ("journal_title".equals(localName)) {
+    public static void parseStartElement(XMLStreamReader reader) throws XMLStreamException {
+        localName = reader.getLocalName();
+        if ("title".equals(localName)) {
             journal.setTitle(reader.getElementText());
-        } else if ("address".equals(localName)) {
-            contact.setAddress(reader.getElementText());
-        } else if ("tel".equals(localName)) {
-            contact.setTel(reader.getElementText());
-        } else if ("email".equals(localName)) {
-            contact.setEmail(reader.getElementText());
-        } else if ("journal_url".equals(localName)) {
-            contact.setUrl(reader.getElementText());
+        } else if ("contacts".equals(localName)) {
+            parseContacts(reader);
         } else if ("articles".equals(localName)) {
             articles = new ArrayList<>();
         } else if ("article".equals(localName)) {
-            curArticle = new Article();
-            curArticle.setId(reader.getAttributeValue(0));
-        } else if ("hotkeys".equals(localName)) {
-            hotkeys = new ArrayList<>();
-        } else if ("hotkey".equals(localName)) {
-            hotkeys.add(reader.getElementText());
-            curArticle.setHotkeys(hotkeys);
+            parseArticles(reader);
         }
     }
 
-    public void parseEndElement(XMLStreamReader reader) {
-        switch (reader.getLocalName()) {
-            case "article":
-                articles.add(curArticle);
-                break;
-            case "title":
-                curArticle.setTitle(tagContent);
-                break;
-            case "author":
-                curArticle.setAuthor(tagContent);
-                break;
-            case "url":
-                curArticle.setUrl(tagContent);
-                break;
+    public static void parseContacts(XMLStreamReader reader) throws XMLStreamException {
+        contact = new Contact();
+        event = reader.next();
+        do {
+            event = reader.next();
+            switch (event) {
+                case XMLStreamConstants.START_ELEMENT:
+                    localName = reader.getLocalName();
+                    if ("address".equals(localName)) {
+                        contact.setAddress(reader.getElementText());
+                    } else if ("tel".equals(localName)) {
+                        contact.setTel(reader.getElementText());
+                    } else if ("email".equals(localName)) {
+                        contact.setEmail(reader.getElementText());
+                    } else if ("url".equals(localName)) {
+                        contact.setUrl(reader.getElementText());
+                    } else if ("article".equals(localName)) {
+                        article = new Article();
+                        article.setId(reader.getAttributeValue(0));
+                    }
+            }
+        } while (reader.hasNext() && !localName.equals("contacts") && event != 2);
+        journal.setContact(contact);
+    }
+
+    public static void parseArticles(XMLStreamReader reader) throws XMLStreamException {
+        article = new Article();
+        article.setId(reader.getAttributeValue(0));
+        event = reader.next();
+        do {
+            event = reader.next();
+            switch (event) {
+                case XMLStreamConstants.START_ELEMENT:
+                    localName = reader.getLocalName();
+                    if ("title".equals(localName)) {
+                        article.setTitle(reader.getElementText());
+                    } else if ("author".equals(localName)) {
+                        article.setAuthor(reader.getElementText());
+                    } else if ("url".equals(localName)) {
+                        article.setUrl(reader.getElementText());
+                    } else if ("hotkeys".equals(localName)) {
+                        hotkeys = new ArrayList<>();
+                    } else if ("hotkey".equals(localName)) {
+                        hotkeys.add(reader.getElementText());
+                        article.setHotkeys(hotkeys);
+                    }
+            }
         }
+        while (reader.hasNext() && !localName.equals("articles") && event != 2);
+        articles.add(article);
+        journal.setArticles(articles);
+        journal.setContact(contact);
     }
 }
+
 

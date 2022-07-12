@@ -6,13 +6,10 @@ import org.openqa.selenium.opera.OperaDriver;
 public class OperaDriverCreator implements DriverCreator {
     private WebDriver driver;
 
-    public OperaDriverCreator() {
-        System.setProperty("webdriver.opera.driver", ".\\src\\test\\resources\\operadriver.exe");
-        driver = new OperaDriver();
-    }
-
     @Override
     public WebDriver getDriver() {
+        System.setProperty("webdriver.opera.driver", ".\\src\\test\\resources\\operadriver.exe");
+        driver = new OperaDriver();
         return driver;
     }
 }

@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class ComponentsPageTest {
@@ -47,7 +48,11 @@ public class ComponentsPageTest {
                 = componentsPage.findElements(By.xpath(PathNames.COMPONENTS_DESCRIPTION_LOCATOR));
         List<String> descriptionsList = componentsPage.findProductDescriptions();
         Pattern pattern = Pattern.compile(PATTERN_QUANTITY_OF_PRODUCTS_AVAILABLE);
-        List<String> actualList = descriptionsList.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
+        List<String> actualList = descriptionsList
+                .stream()
+                .flatMap(s -> Stream.ofNullable(s))
+                .filter(pattern.asPredicate())
+                .collect(Collectors.toList());
         assertThat(targetWebElementsWithDescriptionsQuantity).hasSameSizeAs(actualList);
     }
 
@@ -58,7 +63,11 @@ public class ComponentsPageTest {
                 = componentsPage.findElements(By.xpath(PathNames.COMPONENTS_DESCRIPTION_LOCATOR));
         List<String> descriptionsList = componentsPage.findProductDescriptions();
         Pattern pattern = Pattern.compile(PATTERN_MIN_PRICE_OF_PRODUCT);
-        List<String> actualList = descriptionsList.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
+        List<String> actualList = descriptionsList
+                .stream()
+                .flatMap(s -> Stream.ofNullable(s))
+                .filter(pattern.asPredicate())
+                .collect(Collectors.toList());
         assertThat(targetWebElementsWithDescriptionsMinPrice).hasSameSizeAs(actualList);
     }
 

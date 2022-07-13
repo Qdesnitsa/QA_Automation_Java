@@ -21,7 +21,7 @@ public class CatalogPageTest {
 
     @BeforeClass
     public static void getOnlinerGetCatalog() {
-        DriverCreator driver = DriverNavigator.getWebDriverByType(OPERA).getWebDriver();
+        DriverCreator driver = DriverNavigator.getWebDriverByType(CHROME).getWebDriver();
         catalogpage = OnlinerPageNavigation.navigateToFirstPage()
                 .clickOnCatalog(TOP_MENU_SECTION_NAME);
     }

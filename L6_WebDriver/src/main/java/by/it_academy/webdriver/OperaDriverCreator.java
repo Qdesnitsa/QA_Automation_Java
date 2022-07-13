@@ -8,8 +8,6 @@ public class OperaDriverCreator implements DriverCreator {
 
     @Override
     public WebDriver getDriver() {
-        System.setProperty("webdriver.opera.driver", ".\\src\\test\\resources\\operadriver.exe");
-        driver = new OperaDriver();
-        return driver;
+        return driver = new OperaDriver();
     }
 }

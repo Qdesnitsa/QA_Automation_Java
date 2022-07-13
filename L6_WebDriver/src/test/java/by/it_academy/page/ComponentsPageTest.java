@@ -28,7 +28,7 @@ public class ComponentsPageTest {
 
     @BeforeClass
     public static void getOnlinerGetCatalogGetComputersGetComponents() {
-        DriverCreator driver = DriverNavigator.getWebDriverByType(CHROME).getWebDriver();
+        DriverCreator driver = DriverNavigator.getWebDriverByType(OPERA).getWebDriver();
         componentsPage = OnlinerPageNavigation.navigateToFirstPage()
                 .clickOnCatalog(TOP_MENU_SECTION_NAME)
                 .clickOnComputers(SUBSECTION_NAME)

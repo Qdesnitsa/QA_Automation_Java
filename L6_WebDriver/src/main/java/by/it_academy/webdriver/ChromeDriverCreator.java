@@ -8,8 +8,6 @@ public class ChromeDriverCreator implements DriverCreator {
 
     @Override
     public WebDriver getDriver() {
-        System.setProperty("webdriver.chrome.driver", ".\\src\\test\\resources\\chromedriver.exe");
-        driver = new ChromeDriver();
-        return driver;
+        return driver = new ChromeDriver();
     }
 }

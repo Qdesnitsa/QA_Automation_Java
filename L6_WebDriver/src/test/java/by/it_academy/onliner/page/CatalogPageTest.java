@@ -1,7 +1,7 @@
-package by.it_academy.page;
+package by.it_academy.onliner.page;
 
-import by.it_academy.webdriver.DriverCreator;
-import by.it_academy.webdriver.DriverNavigator;
+import by.it_academy.onliner.webdriver.DriverCreator;
+import by.it_academy.onliner.webdriver.DriverNavigator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,8 +12,8 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class CatalogPageTest {
-    private static final String CHROME= "chrome";
-    private static final String OPERA= "opera";
+    private static final String CHROME = "chrome";
+    private static final String OPERA = "opera";
     private static final String TOP_MENU_SECTION_NAME = "Каталог";
     private static final List<String> SECTIONS_LIST = Arrays.asList("Электроника", "Компьютеры и сети", "Бытовая техника",
             "Стройка и ремонт", "Дом и сад", "Авто и мото", "Красота и спорт", "Детям и мамам", "Работа и офис");

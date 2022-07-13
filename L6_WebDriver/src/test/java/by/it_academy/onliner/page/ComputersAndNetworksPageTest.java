@@ -1,7 +1,7 @@
-package by.it_academy.page;
+package by.it_academy.onliner.page;
 
-import by.it_academy.webdriver.DriverCreator;
-import by.it_academy.webdriver.DriverNavigator;
+import by.it_academy.onliner.webdriver.DriverCreator;
+import by.it_academy.onliner.webdriver.DriverNavigator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

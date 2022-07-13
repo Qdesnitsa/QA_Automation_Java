@@ -1,6 +1,6 @@
-package by.it_academy.page;
+package by.it_academy.onliner.page;
 
-public class PathNames {
+public class PathName {
     public static final String ONLINER_LINK = "https://www.onliner.by/";
     public static final String CATALOG = "//*[@class='b-main-navigation__text' and contains(text(), '%s')]";
     public static final String CATALOG_TOP_MENU = "//*[@class = 'catalog-navigation-classifier__item ']";

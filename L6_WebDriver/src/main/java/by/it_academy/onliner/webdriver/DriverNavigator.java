@@ -1,6 +1,6 @@
-package by.it_academy.webdriver;
+package by.it_academy.onliner.webdriver;
 
-import by.it_academy.page.BasePage;
+import by.it_academy.onliner.page.BasePage;
 import org.openqa.selenium.WebDriver;
 
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public enum DriverNavigator {
                 .filter(type -> type.getDriverType().equals(driverType))
                 .findAny()
                 .orElseThrow(() -> new RuntimeException("Driver not found."));
-        BasePage.driver = (WebDriver) driverNavigator.getWebDriver().getDriver();
+        BasePage.driver = (WebDriver) driverNavigator.getWebDriver().createDriver();
         return driverNavigator;
     }
 

@@ -1,4 +1,4 @@
-package by.it_academy.page;
+package by.it_academy.onliner.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

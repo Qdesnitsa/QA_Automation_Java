@@ -1,7 +1,7 @@
-package by.it_academy.page;
+package by.it_academy.onliner.page;
 
-import by.it_academy.webdriver.DriverCreator;
-import by.it_academy.webdriver.DriverNavigator;
+import by.it_academy.onliner.webdriver.DriverCreator;
+import by.it_academy.onliner.webdriver.DriverNavigator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -37,7 +37,7 @@ public class ComponentsPageTest {
 
     @Test
     public void testAllElementsContainName() {
-        List<WebElement> targetWebElementsWithNames = componentsPage.findElements(By.xpath(PathNames.COMPONENTS_NAME_LOCATOR));
+        List<WebElement> targetWebElementsWithNames = componentsPage.findElements(By.xpath(PathName.COMPONENTS_NAME_LOCATOR));
         List<String> actualWebElementsWithNames = componentsPage.findProductNames();
         assertThat(targetWebElementsWithNames).hasSameSizeAs(actualWebElementsWithNames);
     }
@@ -45,7 +45,7 @@ public class ComponentsPageTest {
     @Test
     public void testAllElementsContainDescriptionQuantity() {
         List<WebElement> targetWebElementsWithDescriptionsQuantity
-                = componentsPage.findElements(By.xpath(PathNames.COMPONENTS_DESCRIPTION_LOCATOR));
+                = componentsPage.findElements(By.xpath(PathName.COMPONENTS_DESCRIPTION_LOCATOR));
         List<String> descriptionsList = componentsPage.findProductDescriptions();
         Pattern pattern = Pattern.compile(PATTERN_QUANTITY_OF_PRODUCTS_AVAILABLE);
         List<String> actualList = descriptionsList
@@ -60,7 +60,7 @@ public class ComponentsPageTest {
     @Test
     public void testAllElementsContainDescriptionMinPrice() {
         List<WebElement> targetWebElementsWithDescriptionsMinPrice
-                = componentsPage.findElements(By.xpath(PathNames.COMPONENTS_DESCRIPTION_LOCATOR));
+                = componentsPage.findElements(By.xpath(PathName.COMPONENTS_DESCRIPTION_LOCATOR));
         List<String> descriptionsList = componentsPage.findProductDescriptions();
         Pattern pattern = Pattern.compile(PATTERN_MIN_PRICE_OF_PRODUCT);
         List<String> actualList = descriptionsList
